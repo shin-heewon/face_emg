@@ -1,0 +1,11 @@
+{
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
+  "installCommand": "pip install -r server/requirements.txt",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" }
+  ],
+  "env": {
+    "PYTHONPATH": "."
+  }
+}

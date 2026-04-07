@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const BASE = '/api'
+// 환경변수 VITE_API_BASE가 설정되면 외부 백엔드를 사용 (Vercel 배포 시)
+// 미설정 시 Vite 프록시를 통해 로컬 서버로 라우팅
+const BASE = (import.meta.env.VITE_API_BASE ?? '') + '/api'
 
 export const api = {
   health: () => axios.get(`${BASE}/health`),
