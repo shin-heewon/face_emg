@@ -1,0 +1,45 @@
+# 환경 변수 및 비밀키
+.env
+
+# 학습된 모델 가중치
+*.pth
+*.pt
+*.ckpt
+
+# 학습 출력물
+output/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Node.js
+node_modules/
+frontend/dist/
+
+# 데이터셋 (용량이 크므로 제외)
+New_sample_3/
+infanface-public/images/
+data/300w/images/
+
+# 서버 로그
+server.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TensorBoard 로그
+log/
+runs/

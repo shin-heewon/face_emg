@@ -1,0 +1,445 @@
+/* ── 전역 리셋 + 변수 ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary:    #6366f1;
+  --primary-dk: #4f46e5;
+  --surface:    #ffffff;
+  --bg:         #f5f5f7;
+  --border:     #e4e4e7;
+  --text:       #18181b;
+  --text-muted: #71717a;
+  --radius:     12px;
+  --tab-h:      64px;
+  --header-h:   52px;
+
+  /* 감정 색상 */
+  --joy:    #f59e0b;
+  --flustered: #f97316;
+  --anger:  #ef4444;
+  --hurt:   #6366f1;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+/* ── 레이아웃 ─────────────────────────────────────────────────────────── */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-header {
+  height: var(--header-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.app-header h1 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -0.3px;
+}
+
+.app-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: var(--tab-h);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── 하단 탭 바 ───────────────────────────────────────────────────────── */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: var(--tab-h);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: stretch;
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 500;
+  transition: color 0.15s;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab-btn.active { color: var(--primary); }
+
+.tab-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ── 공통 카드 ────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* ── 공통 버튼 ────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: opacity 0.15s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--primary-dk); }
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text);
+}
+.btn-full { width: 100%; }
+
+/* ── 로딩 스피너 ──────────────────────────────────────────────────────── */
+.spinner {
+  width: 20px; height: 20px;
+  border: 2.5px solid rgba(255,255,255,0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── 섹션 패딩 ────────────────────────────────────────────────────────── */
+.section { padding: 16px; }
+.section + .section { padding-top: 0; }
+
+/* ── 토글 칩 ──────────────────────────────────────────────────────────── */
+.chip-group {
+  display: flex;
+  gap: 8px;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.chip {
+  flex: 1;
+  padding: 7px 0;
+  border-radius: 7px;
+  border: none;
+  background: none;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chip.active {
+  background: var(--surface);
+  color: var(--primary);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  font-weight: 600;
+}
+
+/* ── 감정 컬러 뱃지 ───────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ── 신뢰도 바 ────────────────────────────────────────────────────────── */
+.conf-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.conf-bar-label {
+  width: 44px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.conf-bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--bg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.conf-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+
+.conf-bar-pct {
+  width: 38px;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── 비교 모드 모델 카드 ──────────────────────────────────────────────── */
+.compare-card {
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+.compare-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.model-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.compare-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.compare-card-top-emotion {
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+/* ── 모델 성능 탭 ─────────────────────────────────────────────────────── */
+.metric-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.metric-table th {
+  background: var(--bg);
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.metric-table td {
+  padding: 10px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.metric-table tr:last-child td { border-bottom: none; }
+
+.model-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.acc-badge {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.f1-cell {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── 파이프라인 탭 ────────────────────────────────────────────────────── */
+.pipeline-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pipeline-step:last-child { border-bottom: none; }
+
+.step-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.step-info { flex: 1; }
+.step-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+.step-info p  { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+
+.viz-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.viz-btn {
+  padding: 10px 8px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  color: var(--text-muted);
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.viz-btn.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #eef2ff;
+  font-weight: 600;
+}
+
+.viz-image-wrap {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.viz-image-wrap img {
+  width: 100%;
+  display: block;
+}
+
+/* ── 이미지 미리보기 ──────────────────────────────────────────────────── */
+.preview-wrap {
+  aspect-ratio: 4 / 3;
+  background: var(--bg);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  position: relative;
+}
+
+.preview-wrap img, .preview-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ── 애니메이션 ───────────────────────────────────────────────────────── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up { animation: slideUp 0.35s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+/* ── 에러/안내 ────────────────────────────────────────────────────────── */
+.notice {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #dc2626;
+}
+
+.notice.info {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
