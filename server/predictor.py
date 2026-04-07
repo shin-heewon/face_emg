@@ -179,7 +179,7 @@ def detect_and_crop(img_bgr: np.ndarray):
         x2 = min(img_bgr.shape[1], x + fw + pad_x)
         y2 = min(img_bgr.shape[0], y + fh + pad_y)
         face_bgr = img_bgr[y1:y2, x1:x2]
-        bbox = [x1, y1, x2 - x1, y2 - y1]
+        bbox = [int(x1), int(y1), int(x2 - x1), int(y2 - y1)]
 
     _, buf = cv2.imencode('.jpg', face_bgr, [cv2.IMWRITE_JPEG_QUALITY, 85])
     face_b64 = base64.b64encode(buf).decode('utf-8')
